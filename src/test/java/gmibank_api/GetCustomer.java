@@ -1,7 +1,19 @@
 package gmibank_api;
 
 import base_url.BaseUrl;
+import io.restassured.response.Response;
 import org.junit.Test;
+import pojos.Country;
+import pojos.Customer;
+import pojos.User;
+import utils.ObjectMapperUtils;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static utils.AuthenticationGmiBank.generateToken;
+import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertTrue;
 
 public class GetCustomer extends BaseUrl {
 
@@ -49,6 +61,57 @@ public class GetCustomer extends BaseUrl {
 
     @Test
     public void getCustomerById(){
+
+        //Set the url
+
+        spec.pathParams("first", "api","second","tp-customers","third",110452);
+
+        //Set the expected data
+
+        Country country = new Country(3,"USA",null);
+        User user = new User(
+                110016,
+                "leopoldo.reinger",
+                "Jasmine",
+                "Stehr",
+                "marni.zboncak@yahoo.com",
+                true,
+                 "en",
+                 null,
+                 null);
+        ArrayList<Object> accounts = new ArrayList<>();
+        Customer expectedData = new Customer(
+                110452,
+                "Jasmine",
+                 "Stehr",
+                 "V",
+                 "marni.zboncak@yahoo.com",
+                 "463-609-2097",
+                 "1-112-497-0270",
+                 "16525",
+                 "14387 Al Ridge5343 Bert Burgs",
+                 "Waltermouth",
+                 "761-59-2911",
+                 "2021-11-28T21:00:00Z",
+                 false,
+                country,
+                "California",
+                user,
+                accounts);
+
+        System.out.println("expectedData = " + expectedData);
+
+        //Send the request and get the request
+
+        Response response = given(spec).headers("Authorization","Bearer " + generateToken()).get("{first}/{second}/{third}");
+        //response.prettyPrint();
+
+        //Do assertions
+
+        Customer actualData = ObjectMapperUtils.convertJsonToJavaObject(response.asString(), Customer.class);
+        System.out.println("actualData = " + actualData);
+
+        assertEquals(200,response.getStatusCode());
 
 
 

@@ -3,16 +3,16 @@ package pojos;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CountryPojo {
+public class Country {
 
     private int id;
     private String name;
     private Object states;
 
-    public CountryPojo() {
+    public Country() {
     }
 
-    public CountryPojo(int id, String name, Object states) {
+    public Country(int id, String name, Object states) {
         this.id = id;
         this.name = name;
         this.states = states;
@@ -44,7 +44,7 @@ public class CountryPojo {
 
     @Override
     public String toString() {
-        return "CountryPojo{" +
+        return "Country{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", states=" + states +
